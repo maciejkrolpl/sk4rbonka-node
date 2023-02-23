@@ -1,7 +1,13 @@
-import mongoose from 'mongoose';
-mongoose.connect(
-  'mongodb+srv://maciek:qgJwyjHa5rM0nYYa@cluster0.sw8efsv.mongodb.net/?retryWrites=true&w=majority',
-  {
-    
-  }
-);
+import {Pool, Client} from 'pg';
+
+
+const client = new Client({
+  host: process.env.DB_HOST || 'localhost',
+  user: process.env.DB_USER || 'postgres',
+  password: process.env.DB_PASSWORD || '4nnMnBsr',
+  database: process.env.DB_DATABASE || 'postgres',
+  port: process.env.DB_PORT || 5432,
+  SSL: process.env.DB_SSL || true
+});
+
+export default client;
