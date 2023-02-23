@@ -6,8 +6,8 @@ const client = new Client({
   user: process.env.DB_USER || 'postgres',
   password: process.env.DB_PASSWORD || '4nnMnBsr',
   database: process.env.DB_DATABASE || 'postgres',
-  port: process.env.DB_PORT || 5432,
-  SSL: process.env.DB_SSL || true
+  port: +process.env.DB_PORT || 5432,
+  SSL:  true
 });
 
 export default client;
