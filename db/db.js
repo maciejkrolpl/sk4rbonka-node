@@ -1,5 +1,5 @@
-import {Pool, Client} from 'pg';
-
+import  pg_pkg from 'pg';
+const {Client} = pg_pkg;
 
 const client = new Client({
   host: process.env.DB_HOST || 'localhost',
