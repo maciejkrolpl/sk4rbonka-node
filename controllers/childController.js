@@ -6,7 +6,7 @@ export const getChildren = async (req, res) => {
     const rows = await queryAllChildren();
     res.status(200).json(rows);
   } catch (error) {
-    const errorPayload = { success: false, error: {...error, message: error.message} }
+    const errorPayload = { success: false, error: { ...error, message: error.message } }
     res.status(400).json(errorPayload);
     logger.error(errorPayload);
   }
@@ -19,7 +19,9 @@ export const getChild = async (req, res) => {
     const row = await queryChildById(childId);
     res.status(200).json(row);
   } catch (error) {
-    res.status(400).json({ success: false, error })
+    const errorPayload = { success: false, error: { ...error, message: error.message } }
+    res.status(400).json(errorPayload);
+    logger.error(errorPayload);
   }
 
 }
@@ -30,8 +32,8 @@ export const createChild = async (req, res) => {
     const row = await insertChild(child);
     res.status(200).json(row);
   } catch (error) {
-    console.error('error inserting child');
-    console.error(error);
-    res.status(400).json({ success: false, error })
+    const errorPayload = { success: false, error: { ...error, message: error.message } }
+    res.status(400).json(errorPayload);
+    logger.error(errorPayload);
   }
 }

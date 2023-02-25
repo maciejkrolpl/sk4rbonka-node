@@ -1,11 +1,14 @@
 import * as service from './../services/transferService.js';
+import logger from './../logger.js';
 
 export const getTransfers = async (req, res) => {
   try {
     const rows = await service.queryAllTransfers()
     res.status(200).json(rows);
   } catch (error) {
-    res.status(400).json({ success: false, error })
+    const errorPayload = { success: false, error: {...error, message: error.message} }
+    res.status(400).json(errorPayload);
+    logger.error(errorPayload);
   }
 
 }
@@ -17,7 +20,9 @@ export const getTransfersByChild = async (req,res) => {
     const rows = await service.queryTransfersByChild(childId);
     res.status(200).json(rows);
   } catch (error) {
-    res.status(400).json({ success: false, error });
+    const errorPayload = { success: false, error: {...error, message: error.message} }
+    res.status(400).json(errorPayload);
+    logger.error(errorPayload);
   }
 }
 export const createPocketMoneyTransfer = async(req, res) => {
@@ -30,8 +35,9 @@ export const createPocketMoneyTransfer = async(req, res) => {
     const rows = await service.createTransfer(transfer);
     res.status(200).json(rows);
   } catch (error) {
-    console.log(error);
-    res.status(400).json({success:false, error, message: error.message})
+    const errorPayload = { success: false, error: {...error, message: error.message} }
+    res.status(400).json(errorPayload);
+    logger.error(errorPayload);
   }
   
 
