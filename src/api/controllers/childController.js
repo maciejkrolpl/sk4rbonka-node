@@ -16,8 +16,12 @@ export const getChild = async (req, res) => {
   const childId = req.params.id;
 
   try {
-    const row = await service.queryChildById(childId);
-    res.status(200).json(row);
+    const rows = await service.queryChildById(childId);
+    if (rows.length === 0) {
+      res.sendStatus(404);
+    } else {
+      res.status(200).json(rows[0]);
+    }
   } catch (error) {
     res.status(400).json({ success: false, error })
   }
@@ -27,11 +31,13 @@ export const getChild = async (req, res) => {
 export const createChild = async (req, res) => {
   const child = req.body;
   try {
-    const row = await service.insertChild(child);
-    res.status(200).json(row);
+    const rows = await service.insertChild(child);
+    if (rows.length === 0) {
+      res.sendStatus(404);
+    } else {
+      res.status(200).json(rows[0]);
+    }
   } catch (error) {
-    console.error('error inserting child');
-    console.error(error);
     res.status(400).json({ success: false, error })
   }
 }
