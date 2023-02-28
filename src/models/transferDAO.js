@@ -1,5 +1,5 @@
-import client from "../db/db.js";
-import createNanoID from "../utils/nanoId.js";
+import client from './../config/db.js';
+import logger from './../utils/logger.js';
 
 const FIELDS = [
   'transfer_id',
@@ -10,10 +10,11 @@ const FIELDS = [
   'type',
   'amount',
   'transfer_date'
-].join`, `
+].join`, `;
 
 export const queryAllTransfers = async () => {
   const query = `SELECT ${FIELDS} FROM transfers`;
+  logger.info('Executing query', {query});
   const result = await client.query(query);
   const { rows } = result;
   return rows;
@@ -24,6 +25,7 @@ export const queryTransfersByChild = async childId => {
     text: `SELECT ${FIELDS} FROM transfers WHERE child = $1`,
     values: [childId]
   }
+  logger.info('Executing query', {query});
   const result = await client.query(query);
   const { rows } = result;
   return rows;
@@ -31,6 +33,7 @@ export const queryTransfersByChild = async childId => {
 
 export const createTransfer = async transfer => {
   const {
+    transferId,
     childId,
     parentId,
     cumulationId,
@@ -43,21 +46,11 @@ export const createTransfer = async transfer => {
     text: `INSERT INTO transfers(transfer_id, child, parent, cumulation, type, amount, description)
       VALUES($1, $2, $3, $4, $5, $6, $7)
       RETURNING transfer_id`,
-    values: [createNanoID(), childId, parentId, cumulationId, type, amount, description]
+    values: [transferId, childId, parentId, cumulationId, type, amount, description]
   };
+  logger.info('Executing query', {query});
   const result = await client.query(query);
   const { rows } = result;
   return rows;
 
 }
-
-// export const insertChild = async child => {
-//   const { name } = child;
-//   const query = {
-//     text: 'INSERT INTO children(child_id, name, balance) VALUES($1, $2, $3) returning child_id',
-//     values: [createNanoID(), name, 0]
-//   };
-//   const result = await client.query(query);
-//   const { rows } = result;
-//   return rows[0];
-// }

@@ -1,9 +1,9 @@
-import { queryAllChildren, queryChildById, insertChild } from "../services/childService.js";
-import logger from './../logger.js';
+import * as service from "./../../services/childService.js";
+import logger from "../../utils/logger.js";
 
 export const getChildren = async (req, res) => {
   try {
-    const rows = await queryAllChildren();
+    const rows = await service.queryAllChildren();
     res.status(200).json(rows);
   } catch (error) {
     const errorPayload = { success: false, error: { ...error, message: error.message } }
@@ -16,8 +16,12 @@ export const getChild = async (req, res) => {
   const childId = req.params.id;
 
   try {
-    const row = await queryChildById(childId);
-    res.status(200).json(row);
+    const rows = await service.queryChildById(childId);
+    if (rows.length === 0) {
+      res.sendStatus(404);
+    } else {
+      res.status(200).json(rows[0]);
+    }
   } catch (error) {
     const errorPayload = { success: false, error: { ...error, message: error.message } }
     res.status(400).json(errorPayload);
@@ -29,11 +33,13 @@ export const getChild = async (req, res) => {
 export const createChild = async (req, res) => {
   const child = req.body;
   try {
-    const row = await insertChild(child);
-    res.status(200).json(row);
+    const rows = await service.insertChild(child);
+    if (rows.length === 0) {
+      res.sendStatus(404);
+    } else {
+      res.status(200).json(rows[0]);
+    }
   } catch (error) {
-    const errorPayload = { success: false, error: { ...error, message: error.message } }
-    res.status(400).json(errorPayload);
-    logger.error(errorPayload);
+    res.status(400).json({ success: false, error })
   }
 }

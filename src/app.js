@@ -1,9 +1,9 @@
-import express from 'express';
 import cors from 'cors';
-import childRoutes from './routes/childRoutes.js'
-import transferRoutes from './routes/transferRoutes.js';
-import client from './db/db.js';
-import logger from './logger.js';
+import express from 'express';
+import client from './config/db.js';
+import logger from './utils/logger.js';
+import childRoutes from './api/routes/childRoutes.js';
+import transferRoutes from './api/routes/transferRoutes.js';
 
 const app = express();
 const port = process.env.PORT || 8000;
