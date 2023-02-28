@@ -21,13 +21,9 @@ export const getTransfersByChild = async (req,res) => {
   }
 }
 export const createPocketMoneyTransfer = async(req, res) => {
-  const transfer = {
-    ...req.body,
-    type: 'Pocketmoney'
-  };
-
+  const transfer = req.body;
   try {
-    const rows = await service.createTransfer(transfer);
+    const rows = await service.createPocketMoneyTransfer(transfer);
     res.status(200).json(rows);
   } catch (error) {
     console.log(error);
