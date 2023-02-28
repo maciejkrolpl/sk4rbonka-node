@@ -1,4 +1,4 @@
-import * as service from './../services/transferService.js';
+import * as service from './../../services/transferService.js';
 
 export const getTransfers = async (req, res) => {
   try {

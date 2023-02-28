@@ -1,5 +1,5 @@
-import client from "../db/db.js";
-import createNanoID from "../utils/nanoId.js";
+import client from "../config/db.js";
+import createNanoID from './../utils/nanoId.js';
 
 export const queryAllChildren = async () => {
   const query = 'SELECT child_id, name, balance FROM children';

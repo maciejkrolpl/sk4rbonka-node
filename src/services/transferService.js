@@ -1,5 +1,5 @@
-import client from "../db/db.js";
-import createNanoID from "../utils/nanoId.js";
+import client from "../config/db.js";
+import createNanoID from './../utils/nanoId.js';
 
 const FIELDS = [
   'transfer_id',
