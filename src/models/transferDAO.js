@@ -52,5 +52,4 @@ export const createTransfer = async transfer => {
   const result = await client.query(query);
   const { rows } = result;
   return rows;
-
 }

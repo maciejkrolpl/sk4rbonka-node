@@ -7,3 +7,8 @@ export const transferRule = {
   parentId: 'required_if:type,Savings|required_if:type,Withdraw|required_if:type,Pocketmoney|required_if:type,Other|required_if:type,Deduction',
   description: 'required_if:type,Deduction'
 }
+
+export const parentRule = {
+  parentId: 'required',
+  name: 'required'
+}

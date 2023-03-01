@@ -9,3 +9,11 @@ export const isValidTransfer = transfer => {
   }
   return true; 
 }
+
+export const isValidParent = parent => {
+  const validation = new Validator(parent, rules.parentRule);
+  if (validation.fails()) {
+    throw validation.errors.errors;
+  }
+  return true;
+}

@@ -1,18 +1,23 @@
 import client from './../config/db.js';
 import logger from './../utils/logger.js';
 
-export const queryAllChildren = async () => {
-  const query = 'SELECT child_id, name, balance FROM children';
+const FIELDS = [
+  'parent_id',
+  'name'
+].join`, `;
+
+export const queryAllParents = async () => {
+  const query = `SELECT ${FIELDS} FROM parents`;
   logger.info('Executing query', { query });
   const result = await client.query(query);
   const { rows } = result;
   return rows;
 }
 
-export const queryChildById = async (childId) => {
+export const queryParentById = async (parentId) => {
   const query = {
-    text: 'SELECT child_id, name, balance FROM children WHERE child_id = $1',
-    values: [childId]
+    text: `SELECT ${FIELDS} FROM parents WHERE parent_id = $1`,
+    values: [parentId]
   };
   logger.info('Executing query', { query });
   const result = await client.query(query);
@@ -20,10 +25,10 @@ export const queryChildById = async (childId) => {
   return rows;
 }
 
-export const createChild = async ({ id, name }) => {
+export const isParentExistsById = async (parentId) => {
   const query = {
-    text: 'INSERT INTO children(child_id, name, balance) VALUES($1, $2, $3) returning child_id',
-    values: [id, name, 0]
+    text: 'SELECT EXISTS(SELECT 1 FROM parents WHERE parent_id = $1)',
+    values: [parentId]
   };
   logger.info('Executing query', { query });
   const result = await client.query(query);
@@ -31,10 +36,13 @@ export const createChild = async ({ id, name }) => {
   return rows;
 }
 
-export const isChildExistsById = async (childId) => {
+export const createParent = async ({parentId, name}) => {
+  
   const query = {
-    text: 'SELECT EXISTS(SELECT 1 FROM children WHERE child_id = $1)',
-    values: [childId]
+    text: `INSERT INTO parents(parent_id, name)
+      VALUES($1, $2)
+      RETURNING parent_id`,
+    values: [parentId, name]
   };
   logger.info('Executing query', { query });
   const result = await client.query(query);
