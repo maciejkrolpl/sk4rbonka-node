@@ -10,7 +10,7 @@ const port = process.env.PORT || 8000;
 app.use(express.json());
 app.use(cors());
 app.use('/child', childRoutes);
-app.use('/transfers', transferRoutes);
+app.use('/transfer', transferRoutes);
 client
   .connect()
   .then(() => logger.info(`Database connected.`))
