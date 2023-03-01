@@ -30,3 +30,14 @@ export const createChild = async (id, name) => {
   const { rows } = result;
   return rows;
 }
+
+export const isChildExistsById = async (childId) => {
+  const query = {
+    text: 'SELECT EXISTS(SELECT 1 FROM children WHERE child_id = $1)',
+    values: [childId]
+  };
+  logger.info('Executing query', { query });
+  const result = await client.query(query);
+  const { rows } = result;
+  return rows;
+}
