@@ -3,10 +3,10 @@ import logger from './../utils/logger.js';
 
 const FIELDS = [
   'transfer_id',
-  'cumulation',
-  'child',
+  'cumulation_id',
+  'child_id',
   'description',
-  'parent',
+  'parent_id',
   'type',
   'amount',
   'transfer_date'
@@ -43,7 +43,7 @@ export const createTransfer = async transfer => {
   } = transfer;
 
   const query = {
-    text: `INSERT INTO transfers(transfer_id, child, parent, cumulation, type, amount, description)
+    text: `INSERT INTO transfers(transfer_id, child_id, parent_id, cumulation_id, type, amount, description)
       VALUES($1, $2, $3, $4, $5, $6, $7)
       RETURNING transfer_id`,
     values: [transferId, childId, parentId, cumulationId, type, amount, description]
