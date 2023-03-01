@@ -2,7 +2,7 @@ import * as dao from './../models/childDAO.js';
 import createNanoID from './../utils/nanoId.js';
 
 export const queryAllChildren = async () => {
-  return dao.queryAllChildren();
+  return await dao.queryAllChildren();
 }
 
 export const queryChildById = async childId => {
@@ -14,8 +14,8 @@ export const isChildExistsById = async (childId) => {
   return rows[0]?.exists;
 }
 
-export const insertChild = async child => {
+export const insertChild = async (child) => {
   const { name } = child;
   const childId = createNanoID();
-  return (await dao.createChild(childId, name))[0];
+  return (await dao.createChild({ childId, name }))[0];
 }
