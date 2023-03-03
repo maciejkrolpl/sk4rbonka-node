@@ -1,6 +1,6 @@
 import * as dao from './../models/parentDAO.js';
 import createNanoID from '../utils/nanoId.js';
-import { isValidParent } from '../utils/validatorHelper.js';
+import { validateParent } from '../utils/validatorHelper.js';
 
 export const queryAllParents = async () => {
   return await dao.queryAllParents();
@@ -20,8 +20,8 @@ export const createParent = async (parent) => {
     parentId: createNanoID()
   }
 
-  if (isValidParent(parentWithId)) {
-    return (await dao.createParent(parentWithId))[0];
-  }
+  validateParent(parentWithId);
+  return (await dao.createParent(parentWithId))[0];
+  
 }
 

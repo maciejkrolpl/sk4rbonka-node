@@ -1,6 +1,6 @@
 import * as dao from './../models/transferDAO.js';
 import createNanoID from './../utils/nanoId.js';
-import { isValidTransfer } from '../utils/validatorHelper.js';
+import { validateTransfer } from '../utils/validatorHelper.js';
 import { isChildExistsById } from './../services/childService.js';
 
 export const queryAllTransfers = async () => {
@@ -9,6 +9,10 @@ export const queryAllTransfers = async () => {
 
 export const queryTransfersByChild = async childId => {
   return dao.queryTransfersByChild(childId);
+}
+
+export const sumTransfersAmountByChild = async(childId) => {
+  return (await dao.sumTransfersAmountByChild(childId))[0];
 }
 
 export const createTransfer = async transfer => {
@@ -22,7 +26,8 @@ export const createTransfer = async transfer => {
     throw { description: 'Invalid child Id!' };
   }
 
-  if (isValidTransfer(transferWithId)) {
-    return (await dao.createTransfer(transferWithId))[0];
-  }
+  validateTransfer(transferWithId);
+  const result = (await dao.createTransfer(transferWithId))[0];
+  console.log('resuklt **** ' , result)
+  return result;
 }

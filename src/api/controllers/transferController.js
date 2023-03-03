@@ -11,8 +11,19 @@ export const getTransfers = async (req, res) => {
     res.status(400).json(errorPayload);
     logger.error(errorPayload);
   }
-
 }
+
+export const sumTransfersAmountByChild = async(req,res) => {
+  const childId = req.params.id;
+
+  try {
+    const rows = await service.sumTransfersAmountByChild(childId);
+    res.status(200).json(rows);
+  } catch (error) {
+    throwError(res, error);
+  }
+}
+
 export const getTransfersByChild = async (req, res) => {
   const childId = req.params.id;
 
