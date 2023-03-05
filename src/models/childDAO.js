@@ -41,3 +41,17 @@ export const isChildExistsById = async (childId) => {
   const { rows } = result;
   return rows;
 }
+
+export const updateChild = async (child, childId) => {
+  const fieldsToUpd = Object.keys(child);
+  const valuesToUpd = Object.values(child);
+  const queryPart = fieldsToUpd.map((field, i) => `${field} = $${i + 1}`).join`, `;
+  const text = `UPDATE CHILDREN SET ${queryPart} WHERE child_id = $${fieldsToUpd.length + 1}`;
+  const values = [...valuesToUpd, childId];
+  const query = {text, values};
+  logger.info('Executing query', { query });
+  const result = await client.query(query);
+  const { rows } = result;
+  return rows;
+
+}
