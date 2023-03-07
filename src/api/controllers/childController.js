@@ -1,5 +1,5 @@
 import * as service from "./../../services/childService.js";
-import throwError from './../../utils/errors.js';
+import throwError from "./../../utils/errors.js";
 
 export const getChildren = async (req, res) => {
   try {
@@ -8,7 +8,7 @@ export const getChildren = async (req, res) => {
   } catch (error) {
     throwError(res, error);
   }
-}
+};
 
 export const getChild = async (req, res) => {
   const childId = req.params.id;
@@ -16,16 +16,14 @@ export const getChild = async (req, res) => {
   try {
     const row = await service.queryChildById(childId);
     if (!row) {
-      res.sendStatus(404)
+      res.sendStatus(404);
     } else {
       res.status(200).json(row);
     }
-
   } catch (error) {
     throwError(res, error);
   }
-
-}
+};
 
 export const createChild = async (req, res) => {
   const child = req.body;
@@ -39,4 +37,4 @@ export const createChild = async (req, res) => {
   } catch (error) {
     throwError(res, error);
   }
-}
+};
