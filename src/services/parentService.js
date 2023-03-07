@@ -1,6 +1,7 @@
 import * as dao from "./../models/parentDAO.js";
 import createNanoID from "../utils/nanoId.js";
 import { validateParent } from "../utils/validatorHelper.js";
+import { isFamilyExistsById } from './familyService.js';
 
 export const queryAllParents = async () => {
   return await dao.queryAllParents();
@@ -15,6 +16,11 @@ export const createParent = async (parent) => {
     ...parent,
     parentId: createNanoID(),
   };
+
+  const isFamilyExists = await isFamilyExistsById(parent.familyId);
+  if (!isFamilyExists) {
+    throw 'Invalid family Id!';
+  }
 
   validateParent(parentWithId);
   return (await dao.createParent(parentWithId))[0];
