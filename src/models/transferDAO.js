@@ -65,6 +65,5 @@ export const createTransfer = async transfer => {
   logger.info('Executing query', { query });
   const result = await client.query(query);
   const { rows } = result;
-  console.log('rows ******  ', rows)
   return rows;
 }

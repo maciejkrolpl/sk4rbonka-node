@@ -21,7 +21,7 @@ export const sumTransfersAmountByChild = async (childId) => {
 }
 
 export const createTransfer = async transfer => {
-  if (!transfer.hasOwnProperty('transferDate')) {
+  if (!('transferDate' in transfer)) {
     transfer = {
       ...transfer,
       transferDate: new Date()
