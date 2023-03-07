@@ -14,3 +14,10 @@ export const validateParent = (parent) => {
     throw validation.errors.errors;
   }
 };
+
+export const validateChild = (child) => {
+  const validation = new Validator(child, rules.childRule);
+  if (validation.fails()) {
+    throw validation.errors.errors;
+  }
+}

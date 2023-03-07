@@ -12,4 +12,11 @@ export const transferRule = {
 export const parentRule = {
   parentId: "required",
   name: "required",
+  familyId: 'required'
 };
+
+export const childRule = {
+  childId: "required",
+  name: "required",
+  familyId: 'required'
+}
