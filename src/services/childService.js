@@ -23,3 +23,13 @@ export const insertChild = async (child) => {
 export const updateChild = async (child, childId) => {
   return (await dao.updateChild(child, childId))[0];
 };
+
+export const deleteChild = async (childId) => {
+  const rowCount = await dao.deleteChild(childId);
+  if (!rowCount) {
+    throw { message: 'Error deleting child.' }
+  }
+  return {
+    success: true
+  }
+}

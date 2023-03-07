@@ -57,3 +57,13 @@ export const updateChild = async (child, childId) => {
   const { rows } = result;
   return rows;
 };
+
+export const deleteChild = async(childId) => {
+  const text = 'DELETE FROM children WHERE child_id = $1';
+  const values = [childId];
+  const query = {text, values};
+  logger.info("Executing query", { query });
+  const result = await client.query(query);
+  const { rowCount } = result;
+  return rowCount;
+}

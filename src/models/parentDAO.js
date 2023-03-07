@@ -22,17 +22,6 @@ export const queryParentById = async (parentId) => {
   return rows;
 };
 
-export const isParentExistsById = async (parentId) => {
-  const query = {
-    text: "SELECT EXISTS(SELECT 1 FROM parents WHERE parent_id = $1)",
-    values: [parentId],
-  };
-  logger.info("Executing query", { query });
-  const result = await client.query(query);
-  const { rows } = result;
-  return rows;
-};
-
 export const createParent = async ({ parentId, name }) => {
   const query = {
     text: `INSERT INTO parents(parent_id, name)
@@ -45,3 +34,14 @@ export const createParent = async ({ parentId, name }) => {
   const { rows } = result;
   return rows;
 };
+
+export const deleteParent = async(parentId) => {
+  const text = 'DELETE FROM parents WHERE parent_id = $1';
+  const values = [parentId];
+  const query = {text, values};
+  logger.info("Executing query", { query });
+  const result = await client.query(query);
+  logger.info(result);
+  const { rowCount } = result;
+  return rowCount;
+}
