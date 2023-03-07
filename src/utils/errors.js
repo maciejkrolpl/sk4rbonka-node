@@ -1,10 +1,10 @@
 import logger from "./logger.js";
 
 const throwError = (res, error) => {
-  let result = { ...error };
+  let result = { ...error, success: false };
 
   if (error.hasOwnProperty('message')) {
-    result = { ...error, description: error.message }
+    result = { ...result, description: error.message }
   } else {
     result = { description: Object.values(error).flat()}
   }

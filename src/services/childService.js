@@ -19,3 +19,7 @@ export const insertChild = async (child) => {
   const childId = createNanoID();
   return (await dao.createChild({ childId, name }))[0];
 }
+
+export const updateChild = async(child, childId) => {
+  return (await dao.updateChild(child, childId))[0];
+}

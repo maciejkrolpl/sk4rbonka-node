@@ -1,14 +1,12 @@
 import * as service from "./../../services/childService.js";
-import logger from "../../utils/logger.js";
+import throwError from './../../utils/errors.js';
 
 export const getChildren = async (req, res) => {
   try {
     const rows = await service.queryAllChildren();
     res.status(200).json(rows);
   } catch (error) {
-    const errorPayload = { success: false, error: { ...error, description: error.message } }
-    res.status(400).json(errorPayload);
-    logger.error(errorPayload);
+    throwError(res, error);
   }
 }
 
@@ -24,9 +22,7 @@ export const getChild = async (req, res) => {
     }
 
   } catch (error) {
-    const errorPayload = { success: false, error: { ...error, description: error.message } }
-    res.status(400).json(errorPayload);
-    logger.error(errorPayload);
+    throwError(res, error);
   }
 
 }
@@ -41,6 +37,6 @@ export const createChild = async (req, res) => {
       res.status(200).json(row);
     }
   } catch (error) {
-    res.status(400).json({ success: false, error })
+    throwError(res, error);
   }
 }

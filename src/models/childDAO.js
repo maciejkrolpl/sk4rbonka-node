@@ -20,10 +20,10 @@ export const queryChildById = async (childId) => {
   return rows;
 }
 
-export const createChild = async ({ id, name }) => {
+export const createChild = async ({ childId, name }) => {
   const query = {
     text: 'INSERT INTO children(child_id, name, balance) VALUES($1, $2, $3) returning child_id',
-    values: [id, name, 0]
+    values: [childId, name, 0]
   };
   logger.info('Executing query', { query });
   const result = await client.query(query);
@@ -40,4 +40,18 @@ export const isChildExistsById = async (childId) => {
   const result = await client.query(query);
   const { rows } = result;
   return rows;
+}
+
+export const updateChild = async (child, childId) => {
+  const fieldsToUpd = Object.keys(child);
+  const valuesToUpd = Object.values(child);
+  const queryPart = fieldsToUpd.map((field, i) => `${field} = $${i + 1}`).join`, `;
+  const text = `UPDATE CHILDREN SET ${queryPart} WHERE child_id = $${fieldsToUpd.length + 1}`;
+  const values = [...valuesToUpd, childId];
+  const query = {text, values};
+  logger.info('Executing query', { query });
+  const result = await client.query(query);
+  const { rows } = result;
+  return rows;
+
 }
