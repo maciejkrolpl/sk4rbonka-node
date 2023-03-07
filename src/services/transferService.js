@@ -12,10 +12,21 @@ export const queryTransfersByChild = async childId => {
 }
 
 export const sumTransfersAmountByChild = async (childId) => {
+  const isChildExists = await isChildExistsById(childId);
+  if (!isChildExists) {
+    throw { message: 'Invalid child Id!' };
+  }
+
   return (await dao.sumTransfersAmountByChild(childId))[0];
 }
 
 export const createTransfer = async transfer => {
+  if (!transfer.hasOwnProperty('transferDate')) {
+    transfer = {
+      ...transfer,
+      transferDate: new Date()
+    }
+  }
   const transferWithId = {
     ...transfer,
     transferId: createNanoID()
@@ -23,8 +34,10 @@ export const createTransfer = async transfer => {
 
   const isChildExists = await isChildExistsById(transfer.childId);
   if (!isChildExists) {
-    throw { description: 'Invalid child Id!' };
+    throw { message: 'Invalid child Id!' };
   }
+
+
 
   validateTransfer(transferWithId);
   const result = (await dao.createTransfer(transferWithId))[0];

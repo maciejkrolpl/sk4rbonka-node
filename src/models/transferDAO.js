@@ -22,7 +22,7 @@ export const queryAllTransfers = async () => {
 
 export const queryTransfersByChild = async childId => {
   const query = {
-    text: `SELECT ${FIELDS} FROM transfers WHERE child = $1`,
+    text: `SELECT ${FIELDS} FROM transfers WHERE child_id = $1`,
     values: [childId]
   }
   logger.info('Executing query', { query });

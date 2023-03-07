@@ -20,10 +20,10 @@ export const queryChildById = async (childId) => {
   return rows;
 }
 
-export const createChild = async ({ id, name }) => {
+export const createChild = async ({ childId, name }) => {
   const query = {
     text: 'INSERT INTO children(child_id, name, balance) VALUES($1, $2, $3) returning child_id',
-    values: [id, name, 0]
+    values: [childId, name, 0]
   };
   logger.info('Executing query', { query });
   const result = await client.query(query);
