@@ -20,6 +20,17 @@ export const queryAllTransfers = async () => {
   return rows;
 };
 
+export const queryTransferById = async (transferId) => {
+  const query = {
+    text: `SELECT ${FIELDS} FROM transfers WHERE transfer_id = $1`,
+    values: [transferId],
+  };
+  logger.info("Executing query", { query });
+  const result = await client.query(query);
+  const { rows } = result;
+  return rows;
+};
+
 export const queryTransfersByChild = async (childId) => {
   const query = {
     text: `SELECT ${FIELDS} FROM transfers WHERE child_id = $1`,
@@ -70,6 +81,27 @@ export const createTransfer = async (transfer) => {
       amount,
       description,
     ],
+  };
+  logger.info("Executing query", { query });
+  const result = await client.query(query);
+  const { rows } = result;
+  return rows;
+};
+
+export const deleteTransfer = async (transferId) => {
+  const text = 'DELETE FROM transfers WHERE transfer_id = $1';
+  const values = [transferId];
+  const query = { text, values };
+  logger.info("Executing query", { query });
+  const result = await client.query(query);
+  const { rows } = result;
+  return rows;
+}
+
+export const isTransferExistsById = async (transferId) => {
+  const query = {
+    text: "SELECT EXISTS(SELECT 1 FROM transfers WHERE transfer_id = $1)",
+    values: [transferId],
   };
   logger.info("Executing query", { query });
   const result = await client.query(query);

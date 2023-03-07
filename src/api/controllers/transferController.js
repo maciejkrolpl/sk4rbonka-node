@@ -41,3 +41,28 @@ export const createTransfer = async (req, res) => {
     throwError(res, error);
   }
 };
+
+export const deleteTransfer = async (req, res) => {
+  const transferId = req.params.id;
+  try {
+    const row = await service.deleteTransfer(transferId);
+    res.status(200).json(row);
+  } catch (error) {
+    throwError(res, error);
+  }
+};
+
+export const getTransferById = async (req, res) => {
+  const transferId = req.params.id;
+
+  try {
+    const row = await service.queryTransferById(transferId);
+    if (!row) {
+      res.status(404).json({ message: "Not found" });
+    } else {
+      res.status(200).json(row);
+    }
+  } catch (error) {
+    throwError(res, error);
+  }
+};

@@ -52,3 +52,24 @@ export const createTransfer = async (transfer) => {
 
   return result;
 };
+
+export const isTransferExistsById = async (transferId) => {
+  const rows = await dao.isTransferExistsById(transferId);
+  return rows[0]?.exists;
+};
+
+
+export const deleteTransfer = async (transferId) => {
+  const isTransferExists = await isTransferExistsById(transferId);
+  if (!isTransferExists) {
+    throw { message: "Invalid transfer Id!" };
+  }
+  await dao.deleteTransfer(transferId);
+  return {
+    success: true
+  }
+}
+
+export const queryTransferById = async (transferId) => {
+  return (await dao.queryTransferById(transferId))[0];
+};
