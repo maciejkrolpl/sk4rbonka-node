@@ -23,3 +23,14 @@ export const insertChild = async (child) => {
 export const updateChild = async (child, childId) => {
   return (await dao.updateChild(child, childId))[0];
 };
+
+export const deleteChild = async (childId) => {
+  const isChildExists = await isChildExistsById(childId);
+  if (!isChildExists) {
+    throw { message: "Invalid child Id!" };
+  }
+  await dao.deleteChild(childId);
+  return {
+    success: true
+  }
+}
