@@ -1,5 +1,5 @@
-import * as service from './../../services/parentService.js';
-import throwError from '../../utils/errors.js';
+import * as service from "./../../services/parentService.js";
+import throwError from "../../utils/errors.js";
 
 export const getParents = async (req, res) => {
   try {
@@ -8,7 +8,7 @@ export const getParents = async (req, res) => {
   } catch (error) {
     throwError(res, error);
   }
-}
+};
 
 export const getParentById = async (req, res) => {
   const parentId = req.params.id;
@@ -19,7 +19,7 @@ export const getParentById = async (req, res) => {
   } catch (error) {
     throwError(res, error);
   }
-}
+};
 
 export const createParent = async (req, res) => {
   const parent = req.body;
@@ -29,4 +29,4 @@ export const createParent = async (req, res) => {
   } catch (error) {
     throwError(res, error);
   }
-}
+};

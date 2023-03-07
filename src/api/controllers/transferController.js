@@ -1,16 +1,16 @@
-import * as service from './../../services/transferService.js';
-import throwError from '../../utils/errors.js';
+import * as service from "./../../services/transferService.js";
+import throwError from "../../utils/errors.js";
 
 export const getTransfers = async (req, res) => {
   try {
-    const rows = await service.queryAllTransfers()
+    const rows = await service.queryAllTransfers();
     res.status(200).json(rows);
   } catch (error) {
     throwError(res, error);
   }
-}
+};
 
-export const sumTransfersAmountByChild = async(req,res) => {
+export const sumTransfersAmountByChild = async (req, res) => {
   const childId = req.params.id;
 
   try {
@@ -19,7 +19,7 @@ export const sumTransfersAmountByChild = async(req,res) => {
   } catch (error) {
     throwError(res, error);
   }
-}
+};
 
 export const getTransfersByChild = async (req, res) => {
   const childId = req.params.id;
@@ -30,7 +30,7 @@ export const getTransfersByChild = async (req, res) => {
   } catch (error) {
     throwError(res, error);
   }
-}
+};
 
 export const createTransfer = async (req, res) => {
   const transfer = req.body;
@@ -40,4 +40,4 @@ export const createTransfer = async (req, res) => {
   } catch (error) {
     throwError(res, error);
   }
-}
+};
