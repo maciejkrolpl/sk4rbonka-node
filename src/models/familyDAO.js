@@ -2,7 +2,7 @@ import client from "./../config/db.js";
 import logger from "./../utils/logger.js";
 
 export const queryAllFamilies = async () => {
-  const query = "SELECT family_id, name FROM family";
+  const query = "SELECT family_id, name FROM families";
   logger.info("Executing query", { query });
   const result = await client.query(query);
   const { rows } = result;
@@ -11,7 +11,7 @@ export const queryAllFamilies = async () => {
 
 export const queryFamilyById = async (familyId) => {
   const query = {
-    text: "SELECT family_id, name, FROM families WHERE family_id = $1",
+    text: "SELECT family_id, name FROM families WHERE family_id = $1",
     values: [familyId],
   };
   logger.info("Executing query", { query });
@@ -23,7 +23,7 @@ export const queryFamilyById = async (familyId) => {
 export const createFamily = async ({ familyId, name }) => {
   const query = {
     text: "INSERT INTO families(family_id, name) VALUES($1, $2) returning family_id",
-    values: [familyId, name, 0],
+    values: [familyId, name],
   };
   logger.info("Executing query", { query });
   const result = await client.query(query);
