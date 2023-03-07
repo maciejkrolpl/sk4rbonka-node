@@ -1,16 +1,23 @@
-import logger from "./logger.js";
+import logger from './logger.js'
+import { isObject } from './utils.js'
 
 const throwError = (res, error) => {
-  let result = { ...error, success: false };
+    let message
 
-  if ("message" in error) {
-    result = { ...result, description: error.message };
-  } else {
-    result = { description: Object.values(error).flat() };
-  }
+    if (isObject(error)) {
+        if (error.message) {
+            message = error.message
+        } else {
+            message = Object.values(error).flat()
+        }
+    } else {
+        message = error
+    }
 
-  res.status(400).json(result);
-  logger.error(result);
-};
+    let result = { error: message, isSuccess: false }
 
-export default throwError;
+    res.status(400).json(result)
+    logger.error(result)
+}
+
+export default throwError
