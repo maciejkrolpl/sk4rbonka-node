@@ -7,7 +7,4 @@ router.get("/sum/child/:id", controller.sumTransfersAmountByChild);
 router.get("/child/:id", controller.getTransfersByChild);
 router.post("/", controller.createTransfer);
 router.delete("/:id", controller.getTransferById);
-// router.post('/cumulation', controller.createCumulationTransfer);
-// router.get('/:id', getChild);
-// router.post('/', createChild)
 export default router;
