@@ -10,11 +10,6 @@ export const queryParentById = async (parentId) => {
   return (await dao.queryParentById(parentId))[0];
 };
 
-export const isParentExistsById = async (parentId) => {
-  const rows = await dao.isParentExistsById(parentId);
-  return rows[0]?.exists;
-};
-
 export const createParent = async (parent) => {
   const parentWithId = {
     ...parent,
@@ -28,7 +23,7 @@ export const createParent = async (parent) => {
 export const deleteParent = async (parentId) => {
   const rowCount = await dao.deleteParent(parentId);
   if (!rowCount) {
-    throw {message: 'Error deleting parent.'}
+    throw { message: 'Error deleting parent.' }
   }
   return {
     success: true

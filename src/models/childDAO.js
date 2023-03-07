@@ -64,6 +64,6 @@ export const deleteChild = async(childId) => {
   const query = {text, values};
   logger.info("Executing query", { query });
   const result = await client.query(query);
-  const { rows } = result;
-  return rows;
+  const { rowCount } = result;
+  return rowCount;
 }

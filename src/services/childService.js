@@ -25,11 +25,10 @@ export const updateChild = async (child, childId) => {
 };
 
 export const deleteChild = async (childId) => {
-  const isChildExists = await isChildExistsById(childId);
-  if (!isChildExists) {
-    throw { message: "Invalid child Id!" };
+  const rowCount = await dao.deleteChild(childId);
+  if (!rowCount) {
+    throw { message: 'Error deleting child.' }
   }
-  await dao.deleteChild(childId);
   return {
     success: true
   }

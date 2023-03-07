@@ -60,11 +60,11 @@ export const isTransferExistsById = async (transferId) => {
 
 
 export const deleteTransfer = async (transferId) => {
-  const isTransferExists = await isTransferExistsById(transferId);
-  if (!isTransferExists) {
-    throw { message: "Invalid transfer Id!" };
+  const rowCount = await dao.deleteTransfer(transferId);
+  if (!rowCount) {
+    throw { message: 'Error deleting transfer.' }
   }
-  await dao.deleteTransfer(transferId);
+  
   return {
     success: true
   }
