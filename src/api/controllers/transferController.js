@@ -1,68 +1,68 @@
-import * as service from "./../../services/transferService.js";
-import throwError from "../../utils/errors.js";
+import * as service from './../../services/transferService.js'
+import throwError from '../../utils/errors.js'
 
 export const getTransfers = async (req, res) => {
-  try {
-    const rows = await service.queryAllTransfers();
-    res.status(200).json(rows);
-  } catch (error) {
-    throwError(res, error);
-  }
-};
+    try {
+        const rows = await service.queryAllTransfers()
+        res.status(200).json(rows)
+    } catch (error) {
+        throwError(res, error)
+    }
+}
 
 export const sumTransfersAmountByChild = async (req, res) => {
-  const childId = req.params.id;
+    const childId = req.params.id
 
-  try {
-    const rows = await service.sumTransfersAmountByChild(childId);
-    res.status(200).json(rows);
-  } catch (error) {
-    throwError(res, error);
-  }
-};
+    try {
+        const rows = await service.sumTransfersAmountByChild(childId)
+        res.status(200).json(rows)
+    } catch (error) {
+        throwError(res, error)
+    }
+}
 
 export const getTransfersByChild = async (req, res) => {
-  const childId = req.params.id;
+    const childId = req.params.id
 
-  try {
-    const rows = await service.queryTransfersByChild(childId);
-    res.status(200).json(rows);
-  } catch (error) {
-    throwError(res, error);
-  }
-};
+    try {
+        const rows = await service.queryTransfersByChild(childId)
+        res.status(200).json(rows)
+    } catch (error) {
+        throwError(res, error)
+    }
+}
 
 export const createTransfer = async (req, res) => {
-  const transfer = req.body;
-  try {
-    const row = await service.createTransfer(transfer);
-    res.status(200).json(row);
-  } catch (error) {
-    throwError(res, error);
-  }
-};
+    const transfer = req.body
+    try {
+        const row = await service.createTransfer(transfer)
+        res.status(200).json(row)
+    } catch (error) {
+        throwError(res, error)
+    }
+}
 
 export const deleteTransfer = async (req, res) => {
-  const transferId = req.params.id;
-  try {
-    const row = await service.deleteTransfer(transferId);
-    res.status(200).json(row);
-  } catch (error) {
-    throwError(res, error);
-  }
-};
+    const transferId = req.params.id
+    try {
+        const row = await service.deleteTransfer(transferId)
+        res.status(200).json(row)
+    } catch (error) {
+        throwError(res, error)
+    }
+}
 
 export const getTransferById = async (req, res) => {
-  const transferId = req.params.id;
+    const transferId = req.params.id
 
-  try {
-    const row = await service.queryTransferById(transferId);
-    if (!row) {
-      res.status(404).json({ message: "Not found" });
-    } else {
-      res.status(200).json(row);
+    try {
+        const row = await service.queryTransferById(transferId)
+        if (!row) {
+            res.status(404).json({ message: 'Not found' })
+        } else {
+            res.status(200).json(row)
+        }
+    } catch (error) {
+        throwError(res, error)
     }
-  } catch (error) {
-    throwError(res, error);
-  }
-};
+}
