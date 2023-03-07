@@ -30,3 +30,13 @@ export const createParent = async (req, res) => {
     throwError(res, error);
   }
 };
+
+export const deleteParent = async (req, res) => {
+  const parentId = req.params.id;
+  try {
+    const row = await service.deleteParent(parentId);
+    res.status(200).json(row);
+  } catch (error) {
+    throwError(res, error);
+  }
+};
