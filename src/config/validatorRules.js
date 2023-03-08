@@ -20,3 +20,11 @@ export const childRule = {
     name: 'required',
     familyId: 'required',
 };
+
+export const userRule = {
+    userId: 'required',
+    name: 'required',
+    pHash: 'required',
+    role: 'required',
+    eMail: 'required|email'
+}

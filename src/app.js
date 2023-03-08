@@ -6,6 +6,7 @@ import childRoutes from './api/routes/childRoutes.js';
 import transferRoutes from './api/routes/transferRoutes.js';
 import parentRoutes from './api/routes/parentRoutes.js';
 import familyRoutes from './api/routes/familyRoutes.js';
+import authRoutes from './api/routes/authRoutes.js';
 
 const app = express();
 const port = process.env.PORT || 8000;
@@ -15,6 +16,7 @@ app.use('/child', childRoutes);
 app.use('/transfer', transferRoutes);
 app.use('/parent', parentRoutes);
 app.use('/family', familyRoutes);
+app.use('/auth', authRoutes);
 client
     .connect()
     .then(() => logger.info(`Database connected.`))

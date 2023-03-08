@@ -21,3 +21,10 @@ export const validateChild = (child) => {
         throw validation.errors.errors;
     }
 };
+
+export const validateUser = (user) => {
+    const validation = new Validator(user, rules.userRule);
+    if (validation.fails()) {
+        throw validation.errors.errors;
+    }
+}
