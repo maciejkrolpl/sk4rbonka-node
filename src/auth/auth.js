@@ -3,6 +3,7 @@ import throwError from '../utils/errors.js';
 import bcrypt from 'bcryptjs';
 import { setCookies } from './jwt.js';
 import { isVerifiedToken } from './jwt.js';
+import { queryFamilyIdByUserId } from '../services/familyService.js';
 
 export const login = async (req, res) => {
     const { username, password } = req.body || {};
@@ -16,7 +17,14 @@ export const login = async (req, res) => {
         const { p_hash, email, role, user_id } = users[0];
         const isPasswordCorrect = await bcrypt.compare(password, p_hash);
         if (isPasswordCorrect && users.length === 1) {
-            setCookies(res, { user_id, name: username, email, role });
+            const { family_id } = await queryFamilyIdByUserId(user_id);
+            setCookies(res, {
+                user_id,
+                name: username,
+                email,
+                role,
+                family_id,
+            });
             res.status(200).json({
                 message: 'Login successful',
                 user: {
@@ -26,10 +34,7 @@ export const login = async (req, res) => {
                 },
             });
         } else {
-            res.status(400).json({
-                message: 'Invalid user name or password',
-                isSuccess: false,
-            });
+            throwError(res, 'Invalid user name or password');
         }
     } catch (error) {
         throwError(res, error);

@@ -3,6 +3,21 @@ import logger from './../utils/logger.js';
 
 const FIELDS = ['child_id', 'family_id', 'name', 'balance'].join`, `;
 
+export const getChildrenByUsersFamily = async (userId) => {
+    const text =
+        `SELECT ${FIELDS} FROM children ` +
+        `WHERE family_id = ` +
+        `(SELECT parents.family_id FROM parents INNER JOIN users ` +
+        `ON parents.parent_id = users.parent_id ` +
+        `WHERE users.user_id = $1)`;
+    const values = [userId];
+    const query = {text, values};
+    logger.info('Executing query', { query });
+    const result = await client.query(query);
+    const { rows } = result;
+    return rows;
+};
+
 export const queryAllChildren = async () => {
     const query = `SELECT ${FIELDS} FROM children`;
     logger.info('Executing query', { query });

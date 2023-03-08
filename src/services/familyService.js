@@ -5,6 +5,10 @@ export const queryAllFamilies = async () => {
     return await dao.queryAllFamilies();
 };
 
+export const queryFamilyIdByUserId = async(userId) =>{
+    return (await dao.queryFamilyIdByUserId(userId))[0];
+}
+
 export const queryFamilyById = async (familyId) => {
     return (await dao.queryFamilyById(familyId))[0];
 };

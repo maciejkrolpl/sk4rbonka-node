@@ -20,6 +20,18 @@ export const queryFamilyById = async (familyId) => {
     return rows;
 };
 
+export const queryFamilyIdByUserId = async (userId) => {
+    const text =
+        'SELECT parents.family_id FROM parents INNER JOIN users ' +
+        'ON parents.parent_id = users.parent_id WHERE users.user_id = $1';
+    const values = [userId];
+    const query = { text, values };
+    logger.info('Executing query', { query });
+    const result = await client.query(query);
+    const { rows } = result;
+    return rows;
+};
+
 export const createFamily = async ({ familyId, name }) => {
     const query = {
         text: 'INSERT INTO families(family_id, name) VALUES($1, $2) returning family_id',

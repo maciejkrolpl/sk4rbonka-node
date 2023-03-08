@@ -28,3 +28,21 @@ export const isVerifiedToken = (cookies, roles = []) => {
 
     return '';
 };
+
+export const getLoggedUser = (cookies) => {
+    const token = cookies?.jwt;
+
+    if (!token) {
+        return {
+            error: 'Not authorized, token not available!',
+            isSuccess: false,
+        };
+    }
+
+    try {
+        const decoded = jwt.verify(token, jwtSecret);
+        return { user: decoded, isSuccess: true };
+    } catch (error) {
+        return { error, isSuccess: false };
+    }
+};

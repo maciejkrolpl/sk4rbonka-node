@@ -3,12 +3,17 @@ import createNanoID from './../utils/nanoId.js';
 import { isFamilyExistsById } from './familyService.js';
 import { validateChild } from '../utils/validatorHelper.js';
 
+export const getChildrenByUsersFamily = async(userId) => {
+    return await dao.getChildrenByUsersFamily(userId);
+}
+
 export const queryAllChildren = async () => {
     return await dao.queryAllChildren();
 };
 
 export const queryChildById = async (childId) => {
-    return (await dao.queryChildById(childId))[0];
+    const child = (await dao.queryChildById(childId))[0];
+    return child;
 };
 
 export const isChildExistsById = async (childId) => {
