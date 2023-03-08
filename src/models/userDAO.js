@@ -9,10 +9,10 @@ const FIELDS = [
   'email'
 ].join`, `;
 
-export const queryUserByNameAndPasswordHash = async (userName, pHash) => {
+export const queryUserByName = async (userName) => {
   const query = {
-      text: `SELECT ${FIELDS} FROM users WHERE name = $1 AND p_hash = $2`,
-      values: [userName, pHash],
+      text: `SELECT ${FIELDS} FROM users WHERE name = $1`,
+      values: [userName],
   };
   logger.info('Executing query', { query });
   const result = await client.query(query);
