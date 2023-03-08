@@ -13,14 +13,16 @@ import { checkIsAuthorized } from './auth/auth.js';
 
 const app = express();
 const port = process.env.PORT || 8000;
+
 app.use(express.json());
 app.use(cors());
 app.use(cookieParser());
 app.use('/child', checkIsAuthorized(), childRoutes);
-app.use('/transfer', transferRoutes);
-app.use('/parent', parentRoutes);
-app.use('/family', familyRoutes);
-app.use('/auth', authRoutes);
+app.use('/transfer', checkIsAuthorized(), transferRoutes);
+app.use('/parent', checkIsAuthorized(), parentRoutes);
+app.use('/family', checkIsAuthorized('admin'), familyRoutes);
+app.use('/auth', checkIsAuthorized(), authRoutes);
+
 client
     .connect()
     .then(() => {

@@ -1,8 +1,7 @@
 import jwt from 'jsonwebtoken';
+const jwtSecret = process.env.AUTH_SECRET_STRING;
 
 export const setCookies = (res, user) => {
-    const jwtSecret = process.env.AUTH_SECRET_STRING;
-
     const maxAge = 3 * 60 * 60;
     const token = jwt.sign(user, jwtSecret, { expiresIn: maxAge });
     res.cookie('jwt', token, {
@@ -12,7 +11,6 @@ export const setCookies = (res, user) => {
 };
 
 export const isVerifiedToken = (cookies, roles = []) => {
-    const jwtSecret = process.env.AUTH_SECRET_STRING;
     const token = cookies?.jwt;
 
     if (!token) {
