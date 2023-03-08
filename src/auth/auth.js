@@ -5,9 +5,8 @@ import bcrypt from 'bcryptjs';
 export const login = async (req, res) => {
     const { username, password } = req.body || {};
     if (!username || !password) {
-        res.status(400).json({
-            message: 'Username or Password not present',
-        });
+       throwError(res, {message: 'Username and password must be entered'});
+       return;
     }
 
     try {

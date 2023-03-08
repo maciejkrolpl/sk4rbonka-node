@@ -16,8 +16,9 @@ const throwError = (res, error) => {
 
     let result = { error: message, isSuccess: false };
 
-    res.status(400).json(result);
     logger.error(result);
+    res.status(400).json(result);
+
 };
 
 export default throwError;
