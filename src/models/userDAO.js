@@ -23,7 +23,7 @@ export const queryUserByName = async (userName) => {
 export const insertUser = async (child) => {
   const { userId, name, pHash, role, eMail } = child;
   const query = {
-      text: `INSERT INTO users(${FIELDS}) VALUES($1, $2, $3, $4, $5) returning user_id`,
+      text: `INSERT INTO users(${FIELDS}) VALUES($1, $2, $3, $4, $5) returning user_id, name, email, role`,
       values: [userId, name, pHash, role, eMail],
   };
   logger.info('Executing query', { query });
