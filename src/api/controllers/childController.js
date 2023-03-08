@@ -1,6 +1,6 @@
 import * as service from './../../services/childService.js';
 import throwError from './../../utils/errors.js';
-import { getLoggedUser } from '../../auth/jwt.js';
+import { getLoggedUserFamilyId, getLoggedUserId } from '../../auth/jwt.js';
 
 export const getChildren = async (req, res) => {
     try {
@@ -12,7 +12,7 @@ export const getChildren = async (req, res) => {
 };
 
 export const getChildrenByUsersFamily = async (req, res) => {
-    const userId = req.params.user_id;
+    const userId = getLoggedUserId(req.cookies);
     try {
         const rows = await service.getChildrenByUsersFamily(userId);
         res.status(200).json(rows);
@@ -21,15 +21,28 @@ export const getChildrenByUsersFamily = async (req, res) => {
     }
 };
 
+export const getChildFromFamily = async (req, res) => {
+    const childId = req.params.id;
+    const familyId = getLoggedUserFamilyId(req.cookies);
+
+    try {
+        const row = await service.queryChildByIdAndFamilyId(childId, familyId);
+        if (!row) {
+            res.sendStatus(404);
+        } else {
+            res.status(200).json(row);
+        }
+    } catch (error) {
+        throwError(res, error);
+    }
+};
+
 export const getChild = async (req, res) => {
     const childId = req.params.id;
-    const {
-        user: { family_id },
-    } = getLoggedUser(req.cookies);
 
     try {
         const row = await service.queryChildById(childId);
-        if (!row || row.family_id !== family_id) {
+        if (!row) {
             res.sendStatus(404);
         } else {
             res.status(200).json(row);
@@ -43,6 +56,26 @@ export const createChild = async (req, res) => {
     const child = req.body;
     try {
         const row = await service.insertChild(child);
+        if (!row) {
+            res.status(404).json({ message: 'Not found' });
+        } else {
+            res.status(200).json(row);
+        }
+    } catch (error) {
+        throwError(res, error);
+    }
+};
+
+export const createChildInFamily = async (req, res) => {
+    const child = req.body;
+    const familyId = getLoggedUserFamilyId(req.cookies);
+    const childWithFamily = {
+        ...child,
+        familyId
+    }
+
+    try {
+        const row = await service.insertChild(childWithFamily);
         if (!row) {
             res.status(404).json({ message: 'Not found' });
         } else {

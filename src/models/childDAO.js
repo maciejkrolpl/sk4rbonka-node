@@ -37,6 +37,17 @@ export const queryChildById = async (childId) => {
     return rows;
 };
 
+export const queryChildByIdAndFamilyId = async(childId, familyId) => {
+    const query = {
+        text: `SELECT ${FIELDS} FROM children WHERE child_id = $1 AND family_id = $2`,
+        values: [childId, familyId]
+    };
+    logger.info('Executing query', { query });
+    const result = await client.query(query);
+    const { rows } = result;
+    return rows;
+}
+
 export const createChild = async (child) => {
     const { childId, familyId, name } = child;
     const query = {

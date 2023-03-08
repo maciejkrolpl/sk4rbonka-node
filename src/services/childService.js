@@ -11,6 +11,10 @@ export const queryAllChildren = async () => {
     return await dao.queryAllChildren();
 };
 
+export const queryChildByIdAndFamilyId = async(childId, familyId) => {
+    return (await dao.queryChildByIdAndFamilyId(childId, familyId))[0];
+}
+
 export const queryChildById = async (childId) => {
     const child = (await dao.queryChildById(childId))[0];
     return child;

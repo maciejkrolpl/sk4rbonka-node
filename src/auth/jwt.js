@@ -46,3 +46,19 @@ export const getLoggedUser = (cookies) => {
         return { error, isSuccess: false };
     }
 };
+
+export const getLoggedUserFamilyId = (cookies) => {
+    const loggedUser = getLoggedUser(cookies);
+    const {
+        user: { family_id },
+    } = loggedUser;
+    return family_id;
+};
+
+export const getLoggedUserId = (cookies) => {
+    const loggedUser = getLoggedUser(cookies);
+    const {
+        user: { user_id },
+    } = loggedUser;
+    return user_id;
+};
