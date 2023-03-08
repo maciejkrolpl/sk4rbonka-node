@@ -7,16 +7,24 @@ export const transferRule = {
     parentId:
         'required_if:type,Savings|required_if:type,Withdraw|required_if:type,Pocketmoney|required_if:type,Other|required_if:type,Deduction',
     description: 'required_if:type,Deduction',
-}
+};
 
 export const parentRule = {
     parentId: 'required',
     name: 'required',
     familyId: 'required',
-}
+};
 
 export const childRule = {
     childId: 'required',
     name: 'required',
     familyId: 'required',
+};
+
+export const userRule = {
+    userId: 'required',
+    name: 'required',
+    pHash: 'required',
+    role: 'required',
+    eMail: 'required|email'
 }
