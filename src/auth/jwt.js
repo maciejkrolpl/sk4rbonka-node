@@ -28,3 +28,37 @@ export const isVerifiedToken = (cookies, roles = []) => {
 
     return '';
 };
+
+export const getLoggedUser = (cookies) => {
+    const token = cookies?.jwt;
+
+    if (!token) {
+        return {
+            error: 'Not authorized, token not available!',
+            isSuccess: false,
+        };
+    }
+
+    try {
+        const decoded = jwt.verify(token, jwtSecret);
+        return { user: decoded, isSuccess: true };
+    } catch (error) {
+        return { error, isSuccess: false };
+    }
+};
+
+export const getLoggedUserFamilyId = (cookies) => {
+    const loggedUser = getLoggedUser(cookies);
+    const {
+        user: { family_id },
+    } = loggedUser;
+    return family_id;
+};
+
+export const getLoggedUserId = (cookies) => {
+    const loggedUser = getLoggedUser(cookies);
+    const {
+        user: { user_id },
+    } = loggedUser;
+    return user_id;
+};

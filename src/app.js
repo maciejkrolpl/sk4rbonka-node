@@ -21,7 +21,7 @@ app.use('/child', checkIsAuthorized(), childRoutes);
 app.use('/transfer', checkIsAuthorized(), transferRoutes);
 app.use('/parent', checkIsAuthorized(), parentRoutes);
 app.use('/family', checkIsAuthorized('admin'), familyRoutes);
-app.use('/auth', checkIsAuthorized(), authRoutes);
+app.use('/auth', authRoutes);
 
 client
     .connect()

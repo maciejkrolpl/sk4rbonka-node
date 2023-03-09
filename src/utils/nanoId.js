@@ -1,5 +1,8 @@
-import { nanoid } from 'nanoid';
+import { customAlphabet } from 'nanoid';
 export default function createNanoID() {
-    const nanoId = nanoid(12);
-    return nanoId;
+    const nanoId = customAlphabet(
+        '1234567890abcdefghijklmnoqprstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ',
+        15
+    );
+    return nanoId();
 }
