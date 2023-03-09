@@ -11,7 +11,7 @@ export const getChildrenByUsersFamily = async (userId) => {
         `ON parents.parent_id = users.parent_id ` +
         `WHERE users.user_id = $1)`;
     const values = [userId];
-    const query = {text, values};
+    const query = { text, values };
     logger.info('Executing query', { query });
     const result = await client.query(query);
     const { rows } = result;
@@ -37,16 +37,16 @@ export const queryChildById = async (childId) => {
     return rows;
 };
 
-export const queryChildByIdAndFamilyId = async(childId, familyId) => {
+export const queryChildByIdAndFamilyId = async (childId, familyId) => {
     const query = {
         text: `SELECT ${FIELDS} FROM children WHERE child_id = $1 AND family_id = $2`,
-        values: [childId, familyId]
+        values: [childId, familyId],
     };
     logger.info('Executing query', { query });
     const result = await client.query(query);
     const { rows } = result;
     return rows;
-}
+};
 
 export const createChild = async (child) => {
     const { childId, familyId, name } = child;
@@ -78,7 +78,7 @@ export const updateChild = async (child, childId) => {
         .join`, `;
     const text = `UPDATE CHILDREN SET ${queryPart} WHERE child_id = $${
         fieldsToUpd.length + 1
-    }`;
+    } RETURNING ${FIELDS}`;
     const values = [...valuesToUpd, childId];
     const query = { text, values };
     logger.info('Executing query', { query });
@@ -90,6 +90,16 @@ export const updateChild = async (child, childId) => {
 export const deleteChild = async (childId) => {
     const text = 'DELETE FROM children WHERE child_id = $1';
     const values = [childId];
+    const query = { text, values };
+    logger.info('Executing query', { query });
+    const result = await client.query(query);
+    const { rowCount } = result;
+    return rowCount;
+};
+
+export const deleteChildFromFamily = async (childId, familyId) => {
+    const text = 'DELETE FROM children WHERE child_id = $1 and family_id = $2';
+    const values = [childId, familyId];
     const query = { text, values };
     logger.info('Executing query', { query });
     const result = await client.query(query);

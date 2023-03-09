@@ -71,8 +71,8 @@ export const createChildInFamily = async (req, res) => {
     const familyId = getLoggedUserFamilyId(req.cookies);
     const childWithFamily = {
         ...child,
-        familyId
-    }
+        familyId,
+    };
 
     try {
         const row = await service.insertChild(childWithFamily);
@@ -90,6 +90,47 @@ export const deleteChild = async (req, res) => {
     const childId = req.params.id;
     try {
         const row = await service.deleteChild(childId);
+        res.status(200).json(row);
+    } catch (error) {
+        throwError(res, error);
+    }
+};
+
+export const deleteChildFromFamily = async (req, res) => {
+    const childId = req.params.id;
+    const familyId = getLoggedUserFamilyId(req.cookies);
+
+    try {
+        const row = await service.deleteChildFromFamily(childId, familyId);
+        res.status(200).json(row);
+    } catch (error) {
+        throwError(res, error);
+    }
+};
+export const updateChild = async (req, res) => {
+    const childId = req.params.id;
+    const child = req.body;
+
+    try {
+        const row = await service.updateChild(child, childId);
+        res.status(200).json(row);
+    } catch (error) {
+        throwError(res, error);
+    }
+};
+
+export const updateChildInFamily = async (req, res) => {
+    const childId = req.params.id;
+    const child = req.body;
+    const childFamilyId = (await service.queryChildById(childId)).family_id;
+    const userFamilyId = getLoggedUserFamilyId(req.cookies);
+
+    if (childFamilyId !== userFamilyId) {
+        return throwError(res, 'Unable to update child.');
+    }
+
+    try {
+        const row = await service.updateChild(child, childId);
         res.status(200).json(row);
     } catch (error) {
         throwError(res, error);
