@@ -5,11 +5,11 @@ const FIELDS = ['child_id', 'family_id', 'name', 'balance'].join`, `;
 
 export const getChildrenByUsersFamily = async (userId) => {
     const text =
-        `SELECT ${FIELDS} FROM children ` +
-        `WHERE family_id = ` +
-        `(SELECT parents.family_id FROM parents INNER JOIN users ` +
-        `ON parents.parent_id = users.parent_id ` +
-        `WHERE users.user_id = $1)`;
+        `SELECT ${FIELDS} FROM children 
+        WHERE family_id = 
+        (SELECT parents.family_id FROM parents INNER JOIN users 
+        ON parents.parent_id = users.parent_id 
+        WHERE users.user_id = $1)`;
     const values = [userId];
     const query = { text, values };
     logger.info('Executing query', { query });

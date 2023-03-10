@@ -10,10 +10,29 @@ const FIELDS = [
     'type',
     'amount',
     'transfer_date',
-].join`, `;
+]
+.map(field => `transfers.${field}`)
+.join`, `;
 
 export const queryAllTransfers = async () => {
     const query = `SELECT ${FIELDS} FROM transfers`;
+    logger.info('Executing query', { query });
+    const result = await client.query(query);
+    const { rows } = result;
+    return rows;
+};
+
+export const queryTransfersByUserId = async (userId) => {
+    const text = `
+        SELECT DISTINCT ${FIELDS} FROM TRANSFERS 
+        JOIN PARENTS ON TRANSFERS.PARENT_ID = PARENTS.PARENT_ID
+        JOIN FAMILIES ON PARENTS.FAMILY_ID =
+	        (SELECT PARENTS.FAMILY_ID
+		    FROM PARENTS
+		    INNER JOIN USERS ON PARENTS.PARENT_ID = USERS.PARENT_ID
+		    WHERE USERS.USER_ID = $1)`;
+    const values = [userId];
+    const query = { text, values };
     logger.info('Executing query', { query });
     const result = await client.query(query);
     const { rows } = result;
